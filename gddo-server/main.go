@@ -564,7 +564,8 @@ func (s *server) serveHome(resp http.ResponseWriter, req *http.Request) error {
 
 	pkgs, err := s.db.Search(req.Context(), q)
 	if err != nil {
-		return err
+		// TODO(vfylyk) s.db.Search must be able to search without app engine.
+		// return err
 	}
 	if s.gceLogger != nil {
 		// Log up to top 10 packages we served upon a search.

@@ -44,6 +44,7 @@ func newHTTPClient(v *viper.Viper) *http.Client {
 		GithubToken:        v.GetString(ConfigGithubToken),
 		GithubClientID:     v.GetString(ConfigGithubClientID),
 		GithubClientSecret: v.GetString(ConfigGithubClientSecret),
+		BitbucketToken:     v.GetString(ConfigBitbucketToken),
 	}
 	t = trace.Transport{Base: t}
 	return &http.Client{

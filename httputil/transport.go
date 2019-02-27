@@ -10,12 +10,13 @@
 package httputil
 
 import (
+	"encoding/base64"
 	"net/http"
 	"net/url"
 )
 
 // AuthTransport is an implementation of http.RoundTripper that authenticates
-// with the GitHub API.
+// with the GitHub API and the Bitbucket API.
 //
 // When both a token and client credentials are set, the latter is preferred.
 type AuthTransport struct {
@@ -23,6 +24,7 @@ type AuthTransport struct {
 	GithubToken        string
 	GithubClientID     string
 	GithubClientSecret string
+	BitbucketToken     string
 	Base               http.RoundTripper
 }
 
@@ -49,6 +51,12 @@ func (t *AuthTransport) RoundTrip(req *http.Request) (*http.Response, error) {
 				reqCopy = copyRequest(req)
 			}
 			reqCopy.Header.Set("Authorization", "token "+t.GithubToken)
+		}
+	}
+	if req.URL.Host == "api.bitbucket.org" && req.URL.Scheme == "https" && t.BitbucketToken != "" {
+		if reqCopy == nil {
+			reqCopy = copyRequest(req)
+			reqCopy.Header.Set("Authorization", "Basic "+base64.StdEncoding.EncodeToString([]byte(t.BitbucketToken)))
 		}
 	}
 	if reqCopy != nil {

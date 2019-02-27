@@ -23,6 +23,7 @@ const (
 	githubTokenEnvVar        = "GITHUB_TOKEN"
 	githubClientIDEnvVar     = "GITHUB_CLIENT_ID"
 	githubClientSecretEnvVar = "GITHUB_CLIENT_SECRET"
+	bitbucketTokenEnvVar     = "BITBUCKET_TOKEN"
 )
 
 const (
@@ -65,6 +66,7 @@ const (
 	ConfigGithubToken        = "github_token"
 	ConfigGithubClientID     = "github_client_id"
 	ConfigGithubClientSecret = "github_client_secret"
+	ConfigBitbucketToken     = "bitbucket_token"
 
 	// Pub/Sub Config
 	ConfigCrawlPubSubTopic = "crawl-events"
@@ -111,6 +113,7 @@ func loadConfig(ctx context.Context, args []string) (*viper.Viper, error) {
 	v.BindEnv(ConfigGithubToken, githubTokenEnvVar)
 	v.BindEnv(ConfigGithubClientID, githubClientIDEnvVar)
 	v.BindEnv(ConfigGithubClientSecret, githubClientSecretEnvVar)
+	v.BindEnv(ConfigBitbucketToken, bitbucketTokenEnvVar)
 
 	// Read from config.
 	if err := readViperConfig(ctx, v); err != nil {
